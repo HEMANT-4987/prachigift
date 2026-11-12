@@ -1,0 +1,707 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Secret Golden Letter</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #21180d, #080706 55%, #000);
+    color: #f4d99c;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    position: relative;
+    z-index: 1;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 750px;
+    text-align: center;
+}
+
+.screen.active {
+    display: block;
+    animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.subtitle {
+    color: #c8a45d;
+    letter-spacing: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+}
+
+h1 {
+    font-size: clamp(42px, 8vw, 76px);
+    font-weight: 400;
+    color: #ffe7ad;
+    text-shadow: 0 0 35px #d9a84d66;
+}
+
+h2 {
+    font-size: clamp(32px, 6vw, 49px);
+    font-weight: 400;
+    margin: 20px 0;
+}
+
+p {
+    font-size: clamp(19px, 4vw, 26px);
+    line-height: 1.65;
+    color: #e9d7b4;
+    margin: 15px 0;
+}
+
+.gold-line {
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e7bd69, transparent);
+    margin: 30px auto;
+}
+
+button {
+    padding: 15px 32px;
+    margin-top: 28px;
+    background: linear-gradient(135deg, #342511, #090807);
+    border: 1px solid #d9b66d;
+    color: #ffe6aa;
+    font-family: inherit;
+    font-size: 20px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .4s;
+    position: relative;
+    z-index: 5;
+}
+
+button:hover {
+    background: #d9b66d;
+    color: #080604;
+    box-shadow: 0 0 30px #d9b66d77;
+    transform: translateY(-3px);
+}
+
+/* ENVELOPE */
+
+.envelope {
+    width: 190px;
+    height: 125px;
+    margin: 40px auto;
+    background: #24190d;
+    border: 1px solid #d9b66d;
+    position: relative;
+    box-shadow: 0 0 40px #d9b66d33;
+}
+
+.envelope:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 94px solid transparent;
+    border-right: 94px solid transparent;
+    border-top: 65px solid #705126;
+}
+
+.envelope:after {
+    content: "✦";
+    position: absolute;
+    top: 48px;
+    left: 80px;
+    font-size: 35px;
+    color: #ffe5a1;
+}
+
+/* GIFT */
+
+.gift {
+    width: 180px;
+    height: 145px;
+    position: relative;
+    margin: 60px auto 40px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.gift-body {
+    position: absolute;
+    bottom: 0;
+    width: 180px;
+    height: 105px;
+    background: #17110d;
+    border: 2px solid #d9b66d;
+    box-shadow: 0 0 40px #d9b66d44;
+}
+
+.gift-body:after {
+    content: "";
+    position: absolute;
+    left: 72px;
+    height: 100%;
+    width: 32px;
+    background: linear-gradient(90deg, #9b702b, #ffdc82, #9b702b);
+}
+
+.gift-lid {
+    position: absolute;
+    top: 20px;
+    left: -10px;
+    width: 200px;
+    height: 38px;
+    background: #332315;
+    border: 2px solid #e2bd70;
+    z-index: 2;
+    transition: transform 1.8s ease;
+    transform-origin: left bottom;
+}
+
+.gift.open .gift-lid {
+    transform: rotate(-35deg) translateY(-70px);
+}
+
+@keyframes float {
+    50% { transform: translateY(-12px); }
+}
+
+/* FINAL */
+
+.heart {
+    font-size: 85px;
+    color: #ffda83;
+    text-shadow: 0 0 35px #ffbd42;
+    animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+    50% { transform: scale(1.15); }
+}
+
+.final-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(70px, 15vw, 120px);
+    color: #ffe6a0;
+    text-shadow: 0 0 15px #d9a84d, 0 0 55px #d9a84d;
+    animation: reveal 2.5s ease;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        filter: blur(15px);
+        transform: scale(.8);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+.small-text {
+    margin-top: 15px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: #d5b575;
+}
+
+@media(max-width: 480px) {
+    .subtitle {
+        font-size: 11px;
+        letter-spacing: 3px;
+    }
+
+    button {
+        font-size: 17px;
+        padding: 13px 23px;
+    }
+}
+/* MAGICAL GIFT SPARKLES */
+
+.sparkle {
+    position: absolute;
+    color: #ffe5a1;
+    font-size: 22px;
+    pointer-events: none;
+    z-index: 10;
+    animation: sparkleBurst 1.8s ease-out forwards;
+    text-shadow: 0 0 15px gold;
+}
+
+@keyframes sparkleBurst {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.5) rotate(90deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0) rotate(220deg);
+    }
+}
+/* TWINKLING STARS AROUND NAME */
+.name-stars {
+    position: relative;
+    display: inline-block;
+}
+
+.name-star {
+    position: absolute;
+    color: #ffd76a;
+    font-size: 25px;
+    text-shadow: 0 0 12px gold, 0 0 25px gold;
+    animation: nameTwinkle 1.5s ease-in-out infinite;
+}
+
+.star-left {
+    left: -40px;
+    top: 15px;
+}
+
+.star-right {
+    right: -40px;
+    top: 15px;
+    animation-delay: 0.7s;
+}
+
+@keyframes nameTwinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.7) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.4) rotate(25deg);
+    }
+}/* PREMIUM NAME REVEAL */
+.name-stars {
+    animation: premiumReveal 1.8s ease-out both;
+}
+
+@keyframes premiumReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+        filter: blur(12px);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.08);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+
+<!-- SCREEN 1 -->
+
+<section class="screen active" id="screen1">
+
+    <div class="subtitle">A Special Digital Gift</div>
+
+    <h1>A Special<br>Surprise Awaits You</h1>
+
+    <div class="gold-line"></div>
+
+    <p>
+        Some feelings are too beautiful<br>
+        to be expressed in ordinary words.
+    </p>
+
+    <button type="button" onclick="nextScreen(2)">
+        Open My Surprise ✦
+    </button>
+
+</section>
+
+<!-- SCREEN 2 -->
+
+<section class="screen" id="screen2">
+
+    <div class="subtitle">A Letter From The Heart</div>
+
+    <div class="envelope"></div>
+
+    <h2>Something I Want To Say...</h2>
+
+    <p>
+        Woh ladki beautiful hai, isliye mujhe pasand nahi…
+    </p>
+
+    <p>
+        Woh mujhe pasand hai, kyunki woh mujhe hamesha respect deti hai.
+    </p>
+
+    <p>
+        Mujhse izzat se baat karti hai…
+    </p>
+
+    <p>
+        Uski baaton mein ek apnapan hai, uske behaviour mein ek alag hi khoobsurati hai.
+    </p>
+
+    <button type="button" onclick="nextScreen(3)">
+        Continue Reading ✦
+    </button>
+
+</section>
+
+<!-- SCREEN 3 -->
+
+<section class="screen" id="screen3">
+
+    <div class="subtitle">The Reason Behind My Feelings</div>
+
+    <h2>Real Beauty</h2>
+
+    <div class="gold-line"></div>
+
+    <p>
+        Mere liye khoobsurati sirf chehre mein nahi hoti…
+    </p>
+
+    <p>
+        Asli khoobsurati toh us insaan ke nature mein hoti hai, jo tumhe respect de aur tumhari feelings ki kadar kare.
+    </p>
+
+    <p>
+        Aur shayad… isi wajah se woh mere liye khaas hai.
+    </p>
+
+    <button type="button" onclick="nextScreen(4)">
+        A Little Gift For You ✦
+    </button>
+
+</section>
+
+<!-- SCREEN 4 -->
+
+<section class="screen" id="screen4">
+
+    <div class="subtitle">A Little Something Special</div>
+
+    <div class="gift" id="gift">
+
+        <div class="gift-lid"></div>
+
+        <div class="gift-body"></div>
+
+    </div>
+
+    <p>
+        Jis insaan ne mujhe apni respect se khaas mehsoos karaya…
+    </p>
+
+    <p>
+        Uske liye ek chhota sa gift…
+    </p>
+
+    <p>
+        Ek naam, jo mere dil ke kareeb hai…
+    </p>
+
+    <button type="button" onclick="openGift()">
+        Open The Gift ✦
+    </button>
+
+</section>
+
+<!-- SCREEN 5 -->
+
+<section class="screen" id="screen5">
+
+    <div class="subtitle">A Name Close To My Heart</div>
+
+    <div class="heart">♥</div>
+
+    <div class="gold-line"></div>
+
+    <div class="name-stars">
+    <span class="name-star star-left">✦</span>
+
+    <h1 class="final-name">𝓟𝓻𝓪𝓬𝓱𝓲</h1>
+
+    <span class="name-star star-right">✧</span>
+</div>
+
+    <p style="font-size:35px">❤️</p>
+
+    <div class="small-text">
+        The Name Behind My Feelings
+    </div>
+
+    <div class="gold-line"></div>
+
+    <p style="font-size:19px">
+        A little gift, made with genuine feelings.
+    </p>
+
+</section>
+
+</div>
+
+<script>
+
+/* SCREEN NAVIGATION */
+
+let musicStarted = false;
+let audioContext = null;
+let musicTimer = null;
+
+function nextScreen(number) {
+
+    startMusic();
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById("screen" + number).classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+/* ORIGINAL SOFT BACKGROUND MUSIC */
+
+function startMusic() {
+
+    if (musicStarted) return;
+
+    musicStarted = true;
+
+    try {
+
+        const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) return;
+
+        audioContext = new AudioContextClass();
+
+        const chords = [
+            [261.63, 329.63, 392.00],
+            [220.00, 261.63, 329.63],
+            [196.00, 246.94, 293.66],
+            [220.00, 329.63, 392.00]
+        ];
+
+        let index = 0;
+
+        function playChord() {
+
+            if (!audioContext || audioContext.state === "closed") return;
+
+            const now = audioContext.currentTime;
+
+            chords[index].forEach(freq => {
+
+                const oscillator = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                oscillator.type = "sine";
+                oscillator.frequency.value = freq;
+
+                gain.gain.setValueAtTime(0, now);
+                gain.gain.linearRampToValueAtTime(0.025, now + 0.8);
+                gain.gain.linearRampToValueAtTime(0, now + 3.2);
+
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+
+                oscillator.start(now);
+                oscillator.stop(now + 3.3);
+
+            });
+
+            index = (index + 1) % chords.length;
+
+            musicTimer = setTimeout(playChord, 3200);
+        }
+
+        audioContext.resume().then(playChord);
+
+    } catch (error) {
+        console.log("Audio unavailable:", error);
+    }
+}
+
+/* GIFT OPENING */
+
+let giftOpened = false;
+
+/* GOLDEN SPARKLE BURST */
+
+function createSparkles() {
+
+    const screen = document.getElementById("screen4");
+
+    const symbols = ["✦", "✧", "✺", "⋆", "✶"];
+
+    for (let i = 0; i < 35; i++) {
+
+        const sparkle = document.createElement("span");
+
+        sparkle.className = "sparkle";
+
+        sparkle.textContent =
+            symbols[Math.floor(Math.random() * symbols.length)];
+
+        sparkle.style.left = (15 + Math.random() * 70) + "%";
+        sparkle.style.top = (20 + Math.random() * 60) + "%";
+
+        sparkle.style.animationDelay =
+            (Math.random() * 0.6) + "s";
+
+        screen.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 2500);
+
+    }
+}
+
+function openGift() {
+
+    if (giftOpened) return;
+
+    giftOpened = true;
+createSparkles();
+    document.getElementById("gift").classList.add("open");
+
+    setTimeout(() => {
+        nextScreen(5);
+    }, 2200);
+}
+
+/* GOLDEN PARTICLES */
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resizeCanvas() {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+}
+
+resizeCanvas();
+
+window.addEventListener("resize", resizeCanvas);
+
+for (let i = 0; i < 90; i++) {
+
+    particles.push({
+
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+
+        radius: Math.random() * 2 + 0.5,
+
+        speed: Math.random() * 0.5 + 0.2,
+
+        opacity: Math.random() * 0.8 + 0.2
+
+    });
+
+}
+
+function animateParticles() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+
+        p.y -= p.speed;
+
+        if (p.y < 0) {
+
+            p.y = canvas.height;
+            p.x = Math.random() * canvas.width;
+
+        }
+
+        ctx.beginPath();
+
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+
+        ctx.fillStyle =
+            `rgba(230, 190, 100, ${p.opacity})`;
+
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = "#d9b66d";
+
+        ctx.fill();
+
+    });
+
+    requestAnimationFrame(animateParticles);
+
+}
+
+animateParticles();
+
+</script>
+
+</body>
+</html>
